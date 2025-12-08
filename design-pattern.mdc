@@ -1,0 +1,676 @@
+---
+alwaysApply: true
+---
+# Дизайн-Документ для Tea Pro
+
+## 📋 Содержание
+
+1. [Общая Концепция](#общая-концепция)
+2. [Цветовая Палитра](#цветовая-палитра)
+3. [Типографика](#типографика)
+4. [Структура Layout](#структура-layout)
+5. [UI Компоненты](#ui-компоненты)
+6. [Анимации](#анимации)
+7. [Responsive Design](#responsive-design)
+8. [Print/PDF Export](#printpdf-export)
+9. [Примеры Кода](#примеры-кода)
+
+---
+
+## 🎨 Общая Концепция
+
+### Философия Дизайна
+
+Премиальный, кинематографический стиль с акцентом на минимализм высокого класса. Дизайн вдохновлён элитными брендами (Apple, Porsche, высокая мода) и сочетает тёмную эстетику с тонкими анимациями и интерактивностью.
+
+### Ключевые Принципы
+
+- **Breathable Space**: Просторные отступы, много воздуха между элементами
+- **Subtle Motion**: Плавные, еле заметные анимации (0.15-0.4s)
+- **Glass Morphism**: Полупрозрачные элементы с размытием (glassmorphism)
+- **No Cookie-Cutter**: Избегание стандартных UI-паттернов
+- **Performance First**: Оптимизация с will-change и минимальные перерисовки
+- **Dark Premium**: Чёрный фон, белый текст, тонкие акценты
+
+### Ключевые Слова
+
+`cinematic` • `luxury` • `minimal` • `premium` • `dark` • `glass` • `smooth` • `elegant` • `breathable` • `sophisticated`
+
+---
+
+## 🎨 Цветовая Палитра
+
+### Основные Цвета
+
+| Цвет | Hex | Использование |
+|------|-----|--------------|
+| Pure Black | `#000000` | Основной фон |
+| Pure White | `#FFFFFF` | Основной текст |
+
+### Прозрачность и Glass Effect
+
+```css
+/* Glass Card - основной стиль для карточек */
+background: rgba(10, 10, 10, 0.45);
+border: 1px solid rgba(255, 255, 255, 0.12);
+backdrop-filter: blur(28px);
+-webkit-backdrop-filter: blur(28px);
+box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+```
+
+### Opacity Scale (для текста)
+
+| Class | Opacity | Использование |
+|-------|---------|--------------|
+| `text-opacity-90` | 90% | Основной контент |
+| `text-opacity-80` | 80% | Второстепенный текст |
+| `text-opacity-70` | 70% | Вспомогательный текст |
+| `text-opacity-60` | 60% | Метки, подписи |
+| `text-opacity-50` | 50% | Деактивированный текст |
+| `text-opacity-40` | 40% | Placeholder |
+| `text-opacity-30` | 30% | Едва видимый текст |
+
+### Акцентные Градиенты
+
+```css
+/* Purple-Pink Gradient */
+bg-gradient-to-r from-amber-400 to-orange-500
+bg-gradient-to-r from-amber-600 to-orange-600
+
+/* Blue-Cyan Gradient */
+bg-gradient-to-r from-blue-400 to-cyan-400
+bg-gradient-to-r from-blue-500 to-cyan-500
+
+/* Warm Gradient */
+bg-gradient-to-r from-amber-400 to-orange-400
+bg-gradient-to-r from-amber-500 to-orange-500
+
+/* Green Gradient */
+bg-gradient-to-r from-emerald-400 to-teal-400
+bg-gradient-to-r from-emerald-500 to-teal-500
+```
+
+**Использование градиентов:**
+- Заголовки (с `text-transparent bg-clip-text`)
+- Иконки и акценты
+- Кнопки (редко, только для главных CTA)
+
+### Цвета для SWOT Analysis
+
+| Элемент | Цвет | Использование |
+|---------|------|--------------|
+| Strengths | `bg-green-500` | Сильные стороны |
+| Opportunities | `bg-blue-500` | Возможности |
+| Weaknesses | `bg-yellow-500` | Слабые стороны |
+| Threats | `bg-red-500` | Угрозы |
+
+---
+
+## ✍️ Типографика
+
+### Шрифт
+
+**Inter** - Google Fonts
+
+```html
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&display=swap');
+```
+
+**Доступные веса:**
+- 300 (light)
+- 400 (regular)
+- 500 (medium)
+- 700 (bold)
+- 800 (extrabold)
+- 900 (black)
+
+### Иерархия Размеров
+
+| Элемент | Tailwind Classes | Применение |
+|---------|-----------------|-----------|
+| **H1** | `text-5xl md:text-7xl font-extralight tracking-tight` | Главные заголовки страниц |
+| **H2** | `text-4xl md:text-5xl font-extralight tracking-tight` | Заголовки секций |
+| **H3** | `text-2xl md:text-3xl font-light` | Подзаголовки |
+| **H4** | `text-xl font-light` | Малые заголовки |
+| **Body** | `text-base text-white text-opacity-80 leading-relaxed` | Основной текст |
+| **Small** | `text-sm text-white text-opacity-70` | Вспомогательный текст |
+| **Label** | `text-xs uppercase tracking-widest text-white text-opacity-60` | Метки, категории |
+
+### Специальные Стили
+
+**Gradient Text:**
+```jsx
+<h1 className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+    Gradient Heading
+</h1>
+```
+
+**Tight Tracking (для больших заголовков):**
+```jsx
+<h1 className="tracking-tight">
+    Tight Spacing
+</h1>
+```
+
+**Wide Tracking (для меток):**
+```jsx
+<span className="uppercase tracking-widest">
+    Label Text
+</span>
+```
+
+### Стиль Параграфов
+
+```jsx
+<p className="text-xl md:text-2xl text-white text-opacity-90 leading-relaxed font-extralight">
+    Premium paragraph text with excellent readability
+</p>
+```
+
+---
+
+## 🖼️ Структура Layout
+
+### Общая Архитектура
+
+```
+┌────────────────────────────────────────┐
+│  3D Background (Spline iframe)         │  ← fixed, z-0
+│  ┌──────┬──────────────────────────┐  │
+│  │      │                          │  │
+│  │ Side │  Main Content            │  │  ← relative, z-10
+│  │ bar  │                          │  │
+│  │      │                          │  │
+│  └──────┴──────────────────────────┘  │
+│  Custom Cursor                         │  ← fixed, z-9999
+└────────────────────────────────────────┘
+```
+
+### 3D Background
+
+**Spline 3D Scene:**
+```jsx
+<div className="fixed inset-0 z-0 print:hidden">
+    <iframe 
+        src="https://my.spline.design/thresholddarkambientui-v0gkZCfi6zXm69kE0wccy70f/" 
+        frameBorder="0" 
+        width="100%" 
+        height="100%"
+        loading="lazy"
+        title="3D Background"
+    />
+</div>
+```
+
+**Особенности:**
+- `fixed inset-0` - занимает весь экран
+- `z-0` - находится позади всего контента
+- `print:hidden` - скрывается при печати
+
+### Sidebar Navigation
+
+**Позиционирование:**
+```jsx
+<aside className="fixed inset-y-0 left-0 flex flex-col gap-3 sm:gap-4 py-6 px-3 items-center bg-transparent z-50 print:hidden">
+```
+
+**Структура:**
+1. **Logo/Home Button** (вверху)
+   - Размер: `w-10 h-10`
+   - Стиль: `bg-white text-black` (всегда выделена)
+   - Иконка: Zap
+
+2. **Navigation Buttons**
+   - Размер: `w-9 h-9`
+   - Active state: `bg-white text-black scale-105 shadow-md`
+   - Inactive state: `bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-10`
+   - Hover: `hover:bg-opacity-20 hover:scale-105`
+   - Transition: `transition-all duration-150`
+
+3. **Print Button** (внизу с `mt-auto`)
+   - Иконка: Download
+   - Вызывает `window.print()`
+
+**Пример кнопки навигации:**
+```jsx
+<a
+    href__="#section-id"
+    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150 ${
+        isActive 
+            ? 'bg-white text-black scale-105 shadow-md'
+            : 'bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-10 hover:bg-opacity-20 hover:scale-105 text-white'
+    }`}
+>
+    <IconComponent className="w-4 h-4" />
+</a>
+```
+
+### Custom Cursor
+
+**Структура:**
+```jsx
+<div className="cursor-dot"></div>
+<div className="cursor-outline"></div>
+```
+
+**Стили:**
+```css
+.cursor-dot, .cursor-outline {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+    transform: translate(-50%, -50%);
+}
+
+.cursor-dot {
+    height: 6px;
+    width: 6px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.cursor-outline {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+.cursor-outline.hover {
+    width: 48px;
+    height: 48px;
+    border-color: rgba(255, 255, 255, 1);
+    border-width: 2px;
+}
+```
+
+**JavaScript логика:**
+- Dot следует за курсором мгновенно
+- Outline следует с задержкой (easing factor: 0.15)
+- При hover на ссылки/кнопки - outline увеличивается
+
+### Main Content
+
+**Структура:**
+```jsx
+<main className="relative z-10 flex flex-col items-center w-full px-4 custom-scrollbar overflow-y-auto min-h-screen sm:pl-20 md:pl-24 lg:pl-28 print:pl-0 print:px-8">
+    <div className="w-full max-w-7xl pt-20 pb-24 space-y-32 md:space-y-48">
+        {/* Page sections */}
+    </div>
+</main>
+```
+
+**Ключевые классы:**
+- `max-w-7xl` - максимальная ширина контента (1280px)
+- `pt-20` - отступ сверху
+- `pb-24` - отступ снизу
+- `space-y-32 md:space-y-48` - вертикальные отступы между секциями
+- `sm:pl-20 md:pl-24 lg:pl-28` - отступ слева для sidebar
+
+### Scroll Behavior
+
+```css
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+}
+
+section {
+    scroll-margin-top: 4rem;
+}
+```
+
+---
+
+## 🧩 UI Компоненты
+
+### Glass Card
+
+**Основной компонент для контейнеров:**
+```jsx
+<div className="glass-card rounded-2xl p-8">
+    {/* Content */}
+</div>
+```
+
+**CSS класс:**
+```css
+.glass-card {
+    background: rgba(10, 10, 10, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+```
+
+**Варианты:**
+- `rounded-xl` - средний радиус (12px)
+- `rounded-2xl` - большой радиус (16px)
+- `rounded-3xl` - очень большой радиус (24px)
+
+**Hover эффект:**
+```jsx
+<div className="glass-card hover:bg-black hover:bg-opacity-30 transition-all duration-300">
+```
+
+### Buttons
+
+**Primary Button (Белая):**
+```jsx
+<button className="px-6 py-3 bg-white text-black rounded-full hover:scale-105 transition-transform duration-150 font-light">
+    Button Text
+</button>
+```
+
+**Secondary Button (Glass):**
+```jsx
+<button className="px-6 py-3 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 transition-all duration-150 backdrop-blur-sm border border-white border-opacity-10 font-light">
+    Button Text
+</button>
+```
+
+**Icon Button:**
+```jsx
+<button className="w-10 h-10 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 hover:scale-105 transition-all duration-150 backdrop-blur-sm border border-white border-opacity-10 flex items-center justify-center">
+    <Icon className="w-4 h-4" />
+</button>
+```
+
+**Gradient Button (CTA):**
+```jsx
+<button className="px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-full hover:scale-105 transition-transform duration-150 font-medium">
+    Call to Action
+</button>
+```
+
+### Badges & Tags
+
+**Simple Tag:**
+```jsx
+<span className="px-4 py-2 bg-white bg-opacity-10 rounded-full text-white text-sm font-light backdrop-blur-sm">
+    Tag Text
+</span>
+```
+
+**Gradient Badge:**
+```jsx
+<span className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 rounded-full text-white text-sm font-medium">
+    Badge Text
+</span>
+```
+
+**Label (Outlined):**
+```jsx
+<span className="px-3 py-1 text-white text-opacity-70 text-xs uppercase tracking-widest border border-white border-opacity-20 rounded-full">
+    Label
+</span>
+```
+
+### Section Headers
+
+**Стандартный паттерн:**
+```jsx
+<div className="text-center mb-16">
+    <p className="text-sm font-light text-white text-opacity-70 mb-3 uppercase tracking-widest">
+        Category Label
+    </p>
+    <h2 className="text-4xl md:text-5xl font-extralight text-white tracking-tight">
+        Section Title
+    </h2>
+</div>
+```
+
+**С иконкой:**
+```jsx
+<div className="flex items-center gap-3 mb-6">
+    <Icon className="w-8 h-8 text-white" />
+    <h2 className="text-3xl md:text-4xl font-extralight text-white">
+        Section Title
+    </h2>
+</div>
+```
+
+### Hero Section Pattern
+
+```jsx
+<section id="hero" className="min-h-[80vh] flex items-center justify-center pt-24 pb-12 fade-in">
+    <div className="text-center w-full">
+        <p className="text-lg font-light text-white text-opacity-70 mb-2 uppercase tracking-widest">
+            Subtitle
+        </p>
+        <h1 className="text-5xl md:text-7xl font-extralight text-white tracking-tight mb-8">
+            Main Title
+        </h1>
+        <div className="glass-card rounded-2xl p-8 max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-white text-opacity-90 leading-relaxed font-extralight">
+                Description text
+            </p>
+        </div>
+    </div>
+</section>
+```
+
+### Icons
+
+**Используются Lucide React:**
+```jsx
+import { Zap, Palette, Film, Shield } from 'lucide-react';
+```
+
+**Стандартные размеры:**
+- `w-4 h-4` - маленькие иконки (16px) - в кнопках
+- `w-5 h-5` - средние иконки (20px) - в навигации
+- `w-6 h-6` - большие иконки (24px) - в контенте
+- `w-8 h-8` - очень большие (32px) - в заголовках
+
+**Стиль иконки:**
+```jsx
+<Icon className="w-5 h-5 text-white text-opacity-70" />
+```
+
+---
+
+## 🎬 Анимации
+
+### Принципы
+
+1. **Ultra-fast** - 0.15s для UI элементов
+2. **Smooth** - cubic-bezier(0.4, 0, 0.2, 1)
+3. **Subtle** - незаметные, элегантные переходы
+4. **Performance** - will-change для оптимизации
+
+### Fade In Animation
+
+**CSS:**
+```css
+.fade-in { 
+    animation: fadeIn 0.4s ease-out forwards;
+    opacity: 0; 
+    transform: translateY(20px);
+    will-change: opacity, transform;
+}
+
+@keyframes fadeIn { 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
+```
+
+**Использование:**
+```jsx
+<section className="fade-in">
+    {/* Content */}
+</section>
+```
+
+### Fast Fade In
+
+**Для быстрых появлений:**
+```css
+.animate-fade-in-fast {
+    animation: fadeInFast 0.3s ease-out forwards;
+}
+
+@keyframes fadeInFast { 
+    from { 
+        opacity: 0; 
+        transform: translateY(10px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
+```
+
+### Hover Effects
+
+**Scale на hover:**
+```jsx
+<div className="hover:scale-105 transition-transform duration-150">
+```
+
+**Scale + rotate:**
+```jsx
+<div className="hover:scale-110 hover:rotate-3 transition-all duration-500">
+```
+
+**Background opacity:**
+```jsx
+<div className="bg-white bg-opacity-10 hover:bg-opacity-20 transition-all duration-150">
+```
+
+### Staggered Animations
+
+**JavaScript подход:**
+```jsx
+const [showName, setShowName] = useState(false);
+const [showTitle, setShowTitle] = useState(false);
+const [showMission, setShowMission] = useState(false);
+
+useEffect(() => {
+    setTimeout(() => setShowName(true), 200);
+    setTimeout(() => setShowTitle(true), 400);
+    setTimeout(() => setShowMission(true), 600);
+}, []);
+```
+
+**CSS подход:**
+```jsx
+<div 
+    className="fade-in"
+    style={{ animationDelay: `${index * 150}ms` }}
+>
+```
+
+### Transitions
+
+**Ultra-fast для всех элементов:**
+```css
+button, a, .glass-card {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+
+---
+
+## 📱 Responsive Design
+
+### Breakpoints (Tailwind)
+
+| Prefix | Min Width | Описание |
+|--------|-----------|----------|
+| `sm:` | 640px | Маленькие планшеты |
+| `md:` | 768px | Планшеты |
+| `lg:` | 1024px | Маленькие ноутбуки |
+| `xl:` | 1280px | Большие экраны |
+| `2xl:` | 1536px | Очень большие экраны |
+
+### Mobile Adaptations
+
+**Типографика:**
+```jsx
+// Desktop: text-7xl, Mobile: text-5xl
+<h1 className="text-5xl md:text-7xl">
+
+// Desktop: text-5xl, Mobile: text-4xl
+<h2 className="text-4xl md:text-5xl">
+
+// Desktop: text-3xl, Mobile: text-2xl
+<h3 className="text-2xl md:text-3xl">
+```
+
+**Layout:**
+```jsx
+// Sidebar padding
+className="sm:pl-20 md:pl-24 lg:pl-28"
+
+// Grid
+className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+
+// Spacing
+className="space-y-32 md:space-y-48"
+className="gap-8 md:gap-12"
+```
+
+---
+
+## 🖨️ Print/PDF Export
+
+### Принцип
+
+При нажатии кнопки Print запускается `window.print()`, который открывает диалог печати. Пользователь может сохранить как PDF или распечатать.
+
+### Print Styles
+
+**Основные изменения:**
+```css
+@media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .glass-card {
+        background: rgba(250, 250, 250, 1) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+}
+```
+
+---
+
+## 🎯 Общие Рекомендации
+
+### Что Делать
+
+✅ Использовать много "воздуха" (whitespace)  
+✅ Применять плавные, быстрые анимации (0.15-0.4s)  
+✅ Использовать glass morphism для карточек  
+✅ Создавать минималистичные, элегантные интерфейсы  
+✅ Оптимизировать с will-change  
+✅ Использовать font-weight: 300 (light) для большинства текста  
+✅ Применять opacity для иерархии текста  
+
+### Чего Избегать
+
+❌ Яркие, кричащие цвета  
+❌ Плотные, переполненные макеты  
+❌ Медленные анимации (>0.5s)  
+❌ Стандартные UI паттерны  
+❌ Слишком много градиентов  
+
+---
+
+**Создано для CareerPath AI**  
+*Premium Design System for AI-Generated Frontends*
